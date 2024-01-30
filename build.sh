@@ -5,8 +5,8 @@
 set -ex
 
 # docker hub username
-USERNAME=hremon331046
-IMAGE_TAG=d0.4.3-flexible-cut-off-0.1
+USERNAME=359343221949.dkr.ecr.us-east-2.amazonaws.com
+IMAGE_TAG=d0.4.3-el-cut-off-99
 # image name
 IMAGE=neoantigen-vaccine-pipeline
 # directory of this script
