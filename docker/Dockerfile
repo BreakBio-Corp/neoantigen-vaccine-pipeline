@@ -120,7 +120,7 @@ RUN conda config --add channels r && \
     python=3.7 numpy pandas pip
 
 ENV MHCFLURRY_BIN /home/user/miniconda/envs/mhcflurry/bin
-RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry git+https://github.com/BreakBio-Corp/vaxrank.git
+RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry==2.0.6 git+https://github.com/BreakBio-Corp/vaxrank.git
 RUN $MHCFLURRY_BIN/mhcflurry-downloads fetch
 
 # Test MHCflurry
