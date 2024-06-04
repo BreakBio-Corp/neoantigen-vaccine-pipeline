@@ -124,7 +124,7 @@ RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry==2.0.6 git+http
 RUN $MHCFLURRY_BIN/mhcflurry-downloads fetch
 
 # Test MHCflurry
-RUN $MHCFLURRY_BIN/mhcflurry-predict --alleles HLA-A0201 --peptides SIINFEKL
+# RUN $MHCFLURRY_BIN/mhcflurry-predict --alleles HLA-A0201 --peptides SIINFEKL
 
 
 # most of the tools we're using are in the pgv environment; adding to PATH for convenience
@@ -158,6 +158,10 @@ COPY font.conf $HOME/.fonts.conf
 # Copy the current directory contents into the container
 COPY . $HOME
 
+# Add netMHCpan and netMHCIIpan to PATH
+ENV PATH /home/user/netMHCpan-4.1:$PATH
+ENV PATH /home/user/netMHCIIpan-4.0:$PATH
+
 # Strelka setup
 ENV STRELKA_CONFIG $HOME/pipeline/strelka_config.txt
 
@@ -167,6 +171,6 @@ ENV SCRIPTS $HOME/pipeline/scripts
 # snakemake logs get written here (hidden dir)
 RUN mkdir -p $HOME/.snakemake && sudo chown -R $USER $HOME/.snakemake
 
-ENTRYPOINT ["python", "run_snakemake.py"]
-#ENTRYPOINT ["sleep", "36000"]
+#ENTRYPOINT ["python", "run_snakemake.py"]
+#ENTRYPOINT ["/"]
 

@@ -28,7 +28,7 @@ SUPPORTED_FILETYPES = {".fastq.gz", ".fastq", ".bam"}
 _PARALLEL_INDEL_REALIGNER = config.get("parallel_indel_realigner")
 
 # Needed for RNA processing
-_READ_LENGTH = 124
+_READ_LENGTH = 74
 _STAR_GENOME_DIR = join(GENOMEDIR, "star-genome-%d" % _READ_LENGTH)
 
 _IDEAL_ALIGNMENT_MEM_GB = 6
