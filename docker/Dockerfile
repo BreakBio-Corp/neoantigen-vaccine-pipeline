@@ -66,16 +66,15 @@ ENV PERL5LIB /usr/local/lib
 
 # Install Strelka
 # Original address for Strelka: ftp://strelka:%27%27@ftp.illumina.com/v1-branch/v1.0.14/strelka_workflow-1.0.14.tar.gz
-RUN mkdir $HOME/strelka && \
-    cd /tmp && wget https://github.com/openvax/neoantigen-vaccine-pipeline/releases/download/0.3.0/strelka_workflow-1.0.14.tar.gz && \
-    tar xvfz strelka_workflow-1.0.14.tar.gz && \
-    cd strelka_workflow-1.0.14 && \
-    ./configure prefix=$HOME/strelka && \
-    make && \
-    chmod -R a+rx ./* && \
-    make install && \
+RUN export STRELKA_VERSION=2.9.10 && \
+    cd /tmp && \
+    mkdir $HOME/strelka && \
+    wget https://github.com/Illumina/strelka/releases/download/v${STRELKA_VERSION}/strelka-${STRELKA_VERSION}.release_src.tar.bz2 && \
+    tar -xjf strelka-${STRELKA_VERSION}.release_src.tar.bz2 && \
+    mkdir build && cd build && \
+    ../strelka-${STRELKA_VERSION}.release_src/configure --jobs=4 --prefix=$HOME/strelka && \
+    make -j4 install && \
     rm -rf /tmp/*
-
 ENV STRELKA_BIN $HOME/strelka/bin
 
 # Install Miniconda
@@ -106,9 +105,10 @@ RUN conda config --add channels r && \
     picard==2.18.5 \
     pip==19.0.3 \
     sambamba==0.6.6 \
-    samtools==1.8 \
+    samtools==1.9 \
     star==2.6.0c \
     vcftools==0.1.15 \
+    gtfparse==1.2.0 \
     && conda clean --all -y
 
 # We also setup a newer environment with mhcflurry and an updated vaxrank.
@@ -120,11 +120,11 @@ RUN conda config --add channels r && \
     python=3.7 numpy pandas pip
 
 ENV MHCFLURRY_BIN /home/user/miniconda/envs/mhcflurry/bin
-RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry vaxrank
+RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry==2.0.6 git+https://github.com/BreakBio-Corp/vaxrank.git
 RUN $MHCFLURRY_BIN/mhcflurry-downloads fetch
 
 # Test MHCflurry
-RUN $MHCFLURRY_BIN/mhcflurry-predict --alleles HLA-A0201 --peptides SIINFEKL
+# RUN $MHCFLURRY_BIN/mhcflurry-predict --alleles HLA-A0201 --peptides SIINFEKL
 
 
 # most of the tools we're using are in the pgv environment; adding to PATH for convenience
@@ -153,10 +153,14 @@ ENV KERAS_BACKEND tensorflow
 ENV PYENSEMBL_CACHE_DIR /reference-genome/pyensembl-cache
 ENV VAXRANK_REF_PEPTIDES_DIR /reference-genome/reference-peptides
 # this is needed for Vaxrank reports to be reasonably formatted, otherwise kerning is off
-RUN curl https://pastebin.com/raw/AmfYN3er > $HOME/.fonts.conf
+COPY font.conf $HOME/.fonts.conf
 
 # Copy the current directory contents into the container
 COPY . $HOME
+
+# Add netMHCpan and netMHCIIpan to PATH
+ENV PATH /home/user/netMHCpan-4.1:$PATH
+ENV PATH /home/user/netMHCIIpan-4.0:$PATH
 
 # Strelka setup
 ENV STRELKA_CONFIG $HOME/pipeline/strelka_config.txt
@@ -167,4 +171,6 @@ ENV SCRIPTS $HOME/pipeline/scripts
 # snakemake logs get written here (hidden dir)
 RUN mkdir -p $HOME/.snakemake && sudo chown -R $USER $HOME/.snakemake
 
-ENTRYPOINT ["python", "run_snakemake.py"]
+#ENTRYPOINT ["python", "run_snakemake.py"]
+#ENTRYPOINT ["/"]
+
