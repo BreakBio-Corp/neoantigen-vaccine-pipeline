@@ -106,7 +106,6 @@ RUN conda config --add channels r && \
     pip==19.0.3 \
     sambamba==0.6.6 \
     samtools==1.9 \
-    star==2.6.0c \
     vcftools==0.1.15 \
     gtfparse==1.2.0 \
     && conda clean --all -y
