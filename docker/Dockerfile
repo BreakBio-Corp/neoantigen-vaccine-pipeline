@@ -82,6 +82,9 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     bash miniconda.sh -b -p $HOME/miniconda
 ENV PATH $HOME/miniconda/bin:$PATH
 
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
+ && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
 ENV PGV_BIN /home/user/miniconda/envs/pgv/bin
 ENV JAVA7_BIN /home/user/miniconda/envs/java7/bin
 
