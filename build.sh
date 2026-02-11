@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
 AWS_PROFILE=${1:-"default"}
-#VERSION_TAG=${2:-$(date -u +%Y%m%d%H%M)}
-VERSION_TAG="updated-m2"
+VERSION_TAG=${2:-$(date -u +%Y%m%d%H%M)}
+#VERSION_TAG="updated-m2"
 IMAGE_NAME="neoantigen-vaccine-pipeline"
 DOCKER_REGISTRY="359343221949.dkr.ecr.us-east-2.amazonaws.com"
 

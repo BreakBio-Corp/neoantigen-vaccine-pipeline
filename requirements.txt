@@ -1,11 +1,11 @@
 cython
 isovar>=1.1.1
-git+https://github.com/BreakBio-Corp/mhctools.git
+git+https://github.com/BreakBio-Corp/mhctools.git@varcode_mod
 psutil
 pyensembl==1.7.3
 pyyaml
 snakemake==5.4.4
 git+https://github.com/BreakBio-Corp/varcode.git
-git+https://github.com/BreakBio-Corp/vaxrank.git
+git+https://github.com/BreakBio-Corp/vaxrank.git@varcode_mod
 gtfparse==1.2.0
 mhcflurry==2.0.6

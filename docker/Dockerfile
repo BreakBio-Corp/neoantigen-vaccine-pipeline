@@ -78,7 +78,7 @@ RUN export STRELKA_VERSION=2.9.10 && \
 ENV STRELKA_BIN $HOME/strelka/bin
 
 # Install Miniconda
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-py312_25.7.0-2-Linux-x86_64.sh -O miniconda.sh && \
     bash miniconda.sh -b -p $HOME/miniconda
 ENV PATH $HOME/miniconda/bin:$PATH
 
@@ -122,7 +122,7 @@ RUN conda config --add channels r && \
     python=3.7 numpy pandas pip
 
 ENV MHCFLURRY_BIN /home/user/miniconda/envs/mhcflurry/bin
-RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry==2.0.6 git+https://github.com/BreakBio-Corp/vaxrank.git
+RUN $MHCFLURRY_BIN/pip install 'tensorflow-cpu<=2.3.0' mhcflurry==2.0.6 git+https://github.com/BreakBio-Corp/vaxrank.git@varcode_mod
 RUN $MHCFLURRY_BIN/mhcflurry-downloads fetch
 
 # Test MHCflurry
